@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {useQuery} from 'react-query';
 import {Wrapper} from './App.styles';
+import Item from './Item/Item';
 
 export type CartItemType  = {
   id: number;
@@ -16,11 +17,22 @@ const getProducts = async (): Promise<CartItemType[]> => await (await fetch("htt
 
 const App = () => {
   const {data,isLoading,error} = useQuery<CartItemType[]>('products',getProducts);
-  console.log(data);
+
+ // console.log(data);
+  const getTotalItems = () => null;
+  const handleAddToCart = (clickedItem:CartItemType) => null;
+  const handleRemoveFromCart = () => null;
+
+  if(isLoading){
+    return <h1>Loading...</h1>;
+  }
+  if(error){
+    return <h1>error...</h1>;
+  }
   return (
-    <div className="App">
-     start
-    </div>
+    <Wrapper>
+      {data && data.map(item =>  <Item key={item.id} item={item} handleAddToCart={handleAddToCart}/>)}
+    </Wrapper>
   );
 };
 
