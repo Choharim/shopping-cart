@@ -23,8 +23,10 @@ const App = () => {
   const {data,isLoading,error} = useQuery<CartItemType[]>('products',getProducts);
 
  // console.log(data);
-  const getTotalItems = (items: CartItemType[]) => items.reduce(
+  const getTotalItems = (items: CartItemType[]) =>{
+    return items.reduce(
     (ack: number, item) => ack + item.amount, 0);
+  };
 
   const handleAddToCart = (clickedItem:CartItemType) => {
     setCartItem(pre => {
@@ -62,7 +64,10 @@ const App = () => {
   }
   return (
     <Wrapper>
-      <CartIcon onClick={() => setCartOpen(true)}/>
+      <CartBox>
+        <Badge>{getTotalItems(cartItem)}</Badge>
+        <CartIcon onClick={() => setCartOpen(true)}/>
+      </CartBox>
       <BgModal visible={cartOpen} onClick={(e) => setCartOpen(false)}>
         <ModalContainer bottom="100px" visible={cartOpen} onClick={(e) => e.stopPropagation()}>
         <Cart cartItems={cartItem} addToCart={handleAddToCart} removeFromCart={handleRemoveFromCart} />
@@ -96,10 +101,17 @@ margin-top:40px;
   }
 `;
 
- const CartIcon =  styled(MdAddShoppingCart)`
+const CartBox = styled.div`
 position:fixed;
 top:5px;
 right:5px;
+`;
+
+const Badge = styled.span`
+color:red;
+`;
+
+ const CartIcon =  styled(MdAddShoppingCart)`
 font-size:2rem;
 cursor: pointer;
 `;
