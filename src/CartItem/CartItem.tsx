@@ -10,23 +10,40 @@ type Props = {
 
 const CartItem: React.FC<Props> = ({item, addToCart,removeFromCart}) => (
 <Wrapper>
-  <div>
+  <InfoWrap>
     <h3>{item.title}</h3>
-    <div>
+    <Wrapper>
       <p>Price: ${item.price}</p>
       <p>Total: ${(item.amount * item.price).toFixed(2)}</p>
-    </div>
-    <div>
+    </Wrapper>
+    <Wrapper>
       <button onClick={() => removeFromCart(item.id)}>-</button>
       <p>{item.amount}</p>
       <button onClick={() => addToCart(item)}>+</button>
-    </div>
-  </div>
-  <img src={item.image} alt={item.title} />
+    </Wrapper>
+  </InfoWrap>
+  <Img src={item.image} alt={item.title} />
 </Wrapper>
 );
 
 export default CartItem;
 
 const Wrapper = styled.div`
+display:flex;
+justify-content:space-between;
+width:100%;
+`;
+
+const InfoWrap = styled.div`
+display:flex;
+flex-direction:column;
+align-items:center;
+width:50%;
+margin-left:10px;
+`;
+
+const Img = styled.img`
+max-height:120px;
+object-fit:cover;
+margin-right:10px;
 `;

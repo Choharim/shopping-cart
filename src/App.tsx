@@ -25,7 +25,7 @@ const App = () => {
  // console.log(data);
   const getTotalItems = (items: CartItemType[]) => items.reduce(
     (ack: number, item) => ack + item.amount, 0);
-    
+
   const handleAddToCart = (clickedItem:CartItemType) => {
     setCartItem(pre => {
       const isItemInCart = pre.find(item => item.id === clickedItem.id);
@@ -41,7 +41,18 @@ const App = () => {
     });
   };
 
-  const handleRemoveFromCart = () => null;
+  const handleRemoveFromCart = (id:number) => {
+    setCartItem(pre => 
+      pre.reduce((ack,item) => {
+        if(item.id === id) {
+          if(item.amount === 1) return ack;
+          return [...ack, {...item, amount: item.amount - 1}];
+        } else {
+          return [...ack, item];
+        }
+      },[] as CartItemType[])
+    );
+  };
 
   if(isLoading){
     return <h1>Loading...</h1>;
@@ -52,8 +63,8 @@ const App = () => {
   return (
     <Wrapper>
       <CartIcon onClick={() => setCartOpen(true)}/>
-      <BgModal visible={cartOpen} onClick={() => setCartOpen(false)}>
-        <ModalContainer bottom="30%" visible={cartOpen}>
+      <BgModal visible={cartOpen} onClick={(e) => setCartOpen(false)}>
+        <ModalContainer bottom="100px" visible={cartOpen} onClick={(e) => e.stopPropagation()}>
         <Cart cartItems={cartItem} addToCart={handleAddToCart} removeFromCart={handleRemoveFromCart} />
         </ModalContainer>
       </BgModal>
@@ -138,4 +149,5 @@ transition: 0.2s ease;
       opacity: 1;
       visibility: visible;
     `};
+    
 `;

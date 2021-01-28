@@ -23,8 +23,9 @@ const Cart: React.FC<Props> = ({cartItems,addToCart,removeFromCart}) => {
 export default Cart;
 
 const Wrapper =  styled.div`
-width:50%;
-height:50%;
+display:flex;
+flex-direction:column;
+align-items:center;
 background-color:white;
 border-radius:10px;
 `;
